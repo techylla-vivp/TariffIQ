@@ -49,7 +49,7 @@ st.markdown("""
 st.markdown("""
     <div style="padding: 10px 0px 20px 0px;">
         <h1 style="color: #1E40AF; margin-bottom: 0;">🛡️ Techylla TariffIQ</h1>
-        <p style="font-size: 1.1rem; color: #475569; font-weight: 500;">Water Treatment & Infrastructure Compliance Node | Feb 2026</p>
+        <p style="font-size: 1.1rem; color: #475569; font-weight: 500;"> Strategic Global Trade & Duty Optimization Node | Feb 2026</p>
     </div>
 """, unsafe_allow_html=True)
 
@@ -196,4 +196,5 @@ if st.button("🚀 Run Strategic Audit"):
         st.table(comp_rows)
         
     else:
+
         st.error("HTS code not found. Please verify.")
