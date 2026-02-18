@@ -32,7 +32,7 @@ st.markdown("<h3 style='text-align: center; color: #1E3A8A;'>Select a Strategic 
 col1, col2, col3 = st.columns(3, gap="large")
 with col1:
     st.markdown("<div class='module-card' style='border-top-color: #F43F5E;'><div><h3>📈 Tariff Dashboard</h3><p style='color: #475569;'>Comprehensive visibility into procurement spend, tariff impacts, and strategic risk metrics.</p></div></div>", unsafe_allow_html=True)
-    st.link_button("Launch Dashboard", "https://techyllatariffdashboard.streamlit.app/", use_container_width=True)
+    st.link_button("Launch Dashboard", "https://techyllatariffdashboardpharma.streamlit.app/", use_container_width=True)
     
 with col2:
     st.markdown("<div class='module-card'><div><h3>🛠️ Mitigation</h3><p style='color: #475569;'>Execute shield strategies, duty drawbacks, and manage compliance flows.</p></div></div>", unsafe_allow_html=True)
@@ -56,4 +56,5 @@ with col5:
 
 st.markdown("---")
 st.caption("© 2026 Techylla Trade Intelligence. All Rights Reserved.")
+
 
