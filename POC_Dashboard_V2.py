@@ -69,7 +69,7 @@ df = get_pharma_trade_data()
 
 # --- 3. HEADER & SIDEBAR ---
 st.title("🛡️ Global Trade & Tariff Intelligence")
-st.markdown("##### *Strategy Suite: 2-Column Executive View*")
+st.markdown("##### *Trade Intelligence & Procurement Strategy Suite*")
 
 with st.sidebar:
     st.title("🔍 Portfolio Filters")
@@ -177,4 +177,5 @@ with r6_c2:
 
 # --- 6. AUDIT TABLE ---
 st.markdown('<div class="section-title">V. Transactional Audit Ledger</div>', unsafe_allow_html=True)
+
 st.dataframe(f_df.sort_values("Date", ascending=False), use_container_width=True)
