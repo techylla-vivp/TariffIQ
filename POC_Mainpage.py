@@ -22,7 +22,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- 3. HEADER SECTION ---
-st.markdown("<h1 class='hub-title'>🛡️ Tariff Management PoC Box</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='hub-title'>🛡️ Tariff Management Research Lab</h1>", unsafe_allow_html=True)
 st.markdown("<p class='hub-subtitle'>Integrated Trade Intelligence & Strategy Suite</p>", unsafe_allow_html=True)
 
 # --- 4. MODULE GRID SELECTION ---
@@ -31,8 +31,9 @@ st.markdown("<h3 style='text-align: center; color: #1E3A8A;'>Select a Strategic 
 # ROW 1: Analysis, Mitigation, Simulation
 col1, col2, col3 = st.columns(3, gap="large")
 with col1:
-    st.markdown("<div class='module-card'><div><h3>📊 Analysis</h3><p style='color: #475569;'>HTS Auditing, MFN Rates, FTA Eligibility, and Penalty Detection.</p></div></div>", unsafe_allow_html=True)
-    st.link_button("Launch Analysis", "https://techyllatariffiq.streamlit.app/", use_container_width=True)
+    st.markdown("<div class='module-card' style='border-top-color: #F43F5E;'><div><h3>📈 Tariff Dashboard</h3><p style='color: #475569;'>Comprehensive visibility into procurement spend, tariff impacts, and strategic risk metrics.</p></div></div>", unsafe_allow_html=True)
+    st.link_button("Launch Dashboard", "https://techyllatariffdashboard.streamlit.app/", use_container_width=True)
+    
 with col2:
     st.markdown("<div class='module-card'><div><h3>🛠️ Mitigation</h3><p style='color: #475569;'>Execute shield strategies, duty drawbacks, and manage compliance flows.</p></div></div>", unsafe_allow_html=True)
     st.link_button("Launch Mitigation", "https://techyllatariffpro.streamlit.app/", use_container_width=True)
@@ -45,8 +46,9 @@ st.markdown("<br>", unsafe_allow_html=True)
 _, col4, col5, _ = st.columns([0.5, 1, 1, 0.5], gap="large")
 
 with col4:
-    st.markdown("<div class='module-card' style='border-top-color: #F43F5E;'><div><h3>📈 Tariff Dashboard</h3><p style='color: #475569;'>Comprehensive visibility into procurement spend, tariff impacts, and strategic risk metrics.</p></div></div>", unsafe_allow_html=True)
-    st.link_button("Launch Dashboard", "https://techyllatariffdashboard.streamlit.app/", use_container_width=True)
+    st.markdown("<div class='module-card'><div><h3>📊 Analysis</h3><p style='color: #475569;'>HTS Auditing, MFN Rates, FTA Eligibility, and Penalty Detection.</p></div></div>", unsafe_allow_html=True)
+    st.link_button("Launch Analysis", "https://techyllatariffiq.streamlit.app/", use_container_width=True)
+    
 
 with col5:
     st.markdown("<div class='module-card' style='border-top-color: #8B5CF6;'><div><h3>🤖 Trade AI</h3><p style='color: #475569;'>AI-driven supply chain optimization, risk-weighted sourcing, and cost minimization.</p></div></div>", unsafe_allow_html=True)
@@ -54,3 +56,4 @@ with col5:
 
 st.markdown("---")
 st.caption("© 2026 Techylla Trade Intelligence. All Rights Reserved.")
+
