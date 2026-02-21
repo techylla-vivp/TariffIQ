@@ -3,3 +3,7 @@ pandas
 numpy
 plotly
 scikit-learn
+google-generativeai
+sentence-transformers
+torch
+
