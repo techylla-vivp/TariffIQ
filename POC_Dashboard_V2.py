@@ -14,9 +14,9 @@ def get_pharma_trade_data():
     months = pd.date_range(start="2025-01-01", end="2026-06-01", freq='ME') 
     data = []
     hierarchy = {
-        "Therapeutic Area: Oncology": {"Small Molecules": ["API Intermediates", "Reagents"], "Biologics": ["Cell Culture Media"], "Target_Rate": 0.90},
-        "Therapeutic Area: Respiratory": {"Inhaler Components": ["Valves", "Actuators"], "API": ["Active Ingredients"], "Target_Rate": 0.75},
-        "Therapeutic Area: Immunology": {"Antibodies": ["Monoclonal Antibodies"], "Excipients": ["Specialty Sugars"], "Target_Rate": 0.85},
+        "Oncology": {"Small Molecules": ["API Intermediates", "Reagents"], "Biologics": ["Cell Culture Media"], "Target_Rate": 0.90},
+        "Respiratory": {"Inhaler Components": ["Valves", "Actuators"], "API": ["Active Ingredients"], "Target_Rate": 0.75},
+        "Immunology": {"Antibodies": ["Monoclonal Antibodies"], "Excipients": ["Specialty Sugars"], "Target_Rate": 0.85},
         "Animal Health": {"Vaccines": ["Adjuvants"], "Parasiticides": ["Raw Materials"], "Target_Rate": 0.65}
     }
     countries = ["Germany", "USA", "China", "India", "Austria", "Japan"]
@@ -194,3 +194,4 @@ with r4_c2:
 # --- 7. AUDIT TABLE ---
 st.markdown('<div class="section-title">V. Transactional Audit Ledger</div>', unsafe_allow_html=True)
 st.dataframe(f_df.sort_values("Date", ascending=False), use_container_width=True)
+
