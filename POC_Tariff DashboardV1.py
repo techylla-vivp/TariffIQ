@@ -30,7 +30,7 @@ with st.expander("Edit Boehringer Ingelheim Portfolio", expanded=True):
 st.sidebar.header("🕹️ Scenario Manager")
 scenario_type = st.sidebar.selectbox(
     "Select Scenario Type",
-    options=["Section 122 Global Hike", "Country-Specific Hike", "Product-Specific Hike", "Targeted (HTS + Country)"]
+    options=["Global Change", "Country-Specific Change", "Product-Specific Change", "Targeted (HTS + Country)"]
 )
 
 hike_val = st.sidebar.slider("Tariff Hike (%)", 0, 100, 15) / 100
@@ -55,9 +55,9 @@ def calculate_impact(row):
     base_tariff_amt = p_val * base_rate
     
     apply_hike = False
-    if scenario_type == "Section 122 Global Hike": apply_hike = True
-    elif scenario_type == "Country-Specific Hike" and row["Origin"] in target_countries: apply_hike = True
-    elif scenario_type == "Product-Specific Hike" and row["HTS"] in target_hts: apply_hike = True
+    if scenario_type == "Global Chang": apply_hike = True
+    elif scenario_type == "Country-Specific Change" and row["Origin"] in target_countries: apply_hike = True
+    elif scenario_type == "Product-Specific Change" and row["HTS"] in target_hts: apply_hike = True
     elif scenario_type == "Targeted (HTS + Country)" and row["Origin"] in target_countries and row["HTS"] in target_hts: apply_hike = True
     
     is_shielded_country = row["Origin"] in shielded_countries
@@ -87,8 +87,8 @@ c3.metric("Cost Increase (%)", f"{(delta/total_base*100) if total_base > 0 else 
 
 st.subheader("📊 Strategic Impact Analysis")
 fig = go.Figure()
-fig.add_trace(go.Bar(name='Baseline (Pre-S122)', x=df_plan['Product'], y=df_plan['Base Tariff $'], marker_color='#1E3A8A'))
-fig.add_trace(go.Bar(name='Simulation (S122 Hike)', x=df_plan['Product'], y=df_plan['Simulated Tariff $'], marker_color='#EF4444'))
+fig.add_trace(go.Bar(name='Baseline', x=df_plan['Product'], y=df_plan['Base Tariff $'], marker_color='#1E3A8A'))
+fig.add_trace(go.Bar(name='Simulation', x=df_plan['Product'], y=df_plan['Simulated Tariff $'], marker_color='#EF4444'))
 
 if st.session_state.vault:
     compare_with = st.sidebar.multiselect("Compare with Saved Scenario", list(st.session_state.vault.keys()))
