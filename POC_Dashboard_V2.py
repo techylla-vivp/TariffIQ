@@ -102,7 +102,7 @@ with st.sidebar:
 
 # --- 5. TOP KPI ROW ---
 metrics = [
-    ("Gross Exposure", f_df["Gross_Exposure"].sum(), "Total theoretical duty liability (Inflated 12x).", "#004A7C"),
+    ("Gross Exposure", f_df["Gross_Exposure"].sum(), "Total theoretical duty liability .", "#004A7C"),
     ("Mitigation Forecast", f_df["Mitigation_Forecast"].sum(), "Projected duty avoided through existing programs.", "#10B981"),
     ("Net Exposure", f_df["Net_Exposure"].sum(), "Actual cash outflow (Duty Paid).", "#EF4444"),
     ("Potential Recovery", f_df["Potential_Recovery"].sum(), "Addressable savings potential remaining.", "#F59E0B")
@@ -186,12 +186,13 @@ with r4_c1:
     trend_data['Type'] = 'Actual'
     fig11 = px.line(pd.concat([trend_data, forecast_df]), x="Date", y="Net_Exposure", color="Type", line_dash="Type", height=400)
     draw_graph_card("G7: ML Net Exposure Forecast", "AI-driven 6-month prediction of duty cash outflow.", fig11)
-with r4_c2:
-    sim_data = np.random.normal(f_df["Potential_Recovery"].mean(), f_df["Potential_Recovery"].std(), 1000)
-    fig12 = px.histogram(sim_data, nbins=40, color_discrete_sequence=['#004A7C'], height=400)
-    draw_graph_card("G8: Value at Risk (Monte Carlo)", "Simulated distribution of Potential Recovery at risk.", fig12)
+#with r4_c2:
+#    sim_data = np.random.normal(f_df["Potential_Recovery"].mean(), f_df["Potential_Recovery"].std(), 1000)
+#    fig12 = px.histogram(sim_data, nbins=40, color_discrete_sequence=['#004A7C'], height=400)
+#    draw_graph_card("G8: Value at Risk (Monte Carlo)", "Simulated distribution of Potential Recovery at risk.", fig12)
 
 # --- 7. AUDIT TABLE ---
 st.markdown('<div class="section-title">V. Transactional Audit Ledger</div>', unsafe_allow_html=True)
 st.dataframe(f_df.sort_values("Date", ascending=False), use_container_width=True)
+
 
