@@ -88,8 +88,8 @@ c3.metric("Cost Increase (%)", f"{(delta/total_base*100) if total_base > 0 else 
 
 st.subheader("📊 Strategic Impact Analysis")
 fig = go.Figure()
-fig.add_trace(go.Bar(name='Baseline (Pre-S122)', x=df_plan['Product'], y=df_plan['Base Tariff $'], marker_color='#1E3A8A'))
-fig.add_trace(go.Bar(name='Simulation (S122 Hike)', x=df_plan['Product'], y=df_plan['Simulated Tariff $'], marker_color='#EF4444'))
+fig.add_trace(go.Bar(name='Baseline', x=df_plan['Product'], y=df_plan['Base Tariff $'], marker_color='#1E3A8A'))
+fig.add_trace(go.Bar(name='Simulation', x=df_plan['Product'], y=df_plan['Simulated Tariff $'], marker_color='#EF4444'))
 
 if st.session_state.vault:
     compare_with = st.sidebar.multiselect("Compare with Saved Scenario", list(st.session_state.vault.keys()))
@@ -124,3 +124,4 @@ sc_name_input = st.sidebar.text_input("Scenario Name", "Pharma Shield Active")
 if st.sidebar.button("💾 Save Current Scenario"):
     st.session_state.vault[sc_name_input] = df_plan.copy()
     st.sidebar.success(f"'{sc_name_input}' saved. Use the multiselect above to compare.")
+
