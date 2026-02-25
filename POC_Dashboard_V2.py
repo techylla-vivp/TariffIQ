@@ -117,7 +117,7 @@ def draw_graph_card(title, info, fig):
 
 # --- 6. VISUALIZATIONS ---
 
-st.markdown('<div class="section-title">I. 2026 Strategic Performance Outlook</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">I. Strategic Performance Outlook</div>', unsafe_allow_html=True)
 # Expanding G1 to full width for better trend visibility
 g1_df_2026 = f_df[f_df["Year"] == "2026"].groupby("Date").agg({
     "Gross Exposure":"sum",
@@ -133,7 +133,7 @@ fig1.add_trace(go.Scatter(x=g1_df_2026['Date'], y=g1_df_2026['Potential Recovery
 fig1.add_vline(x=datetime.date(2026, 2, 25), line_width=2, line_dash="dash", line_color="gray")
 fig1.update_layout(height=450, margin=dict(l=0,r=0,t=0,b=0), template="plotly_white", legend=dict(orientation="h", y=1.1),
                   xaxis_title="2026 Timeline", yaxis_title="USD ($)")
-draw_graph_card("G1: Strategic Exposure Trend (Full Year 2026)", "Dotted line represents current date: Feb 25, 2026.", fig1)
+draw_graph_card("G1: Strategic Exposure Trend ", "Dotted line represents current date: Feb 25, 2026.", fig1)
 
 st.markdown('<div class="section-title">II. Geographic & Portfolio Impact</div>', unsafe_allow_html=True)
 r2_c1, r2_c2 = st.columns(2)
@@ -184,3 +184,4 @@ for col in cols_to_format:
     audit_display[col] = audit_display[col].map('{:,.2f}'.format)
 
 st.dataframe(audit_display, use_container_width=True)
+
