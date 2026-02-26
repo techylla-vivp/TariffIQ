@@ -12,7 +12,7 @@ HTS_DATA = [
     {"desc": "Medicaments and medicine strictly for human use only; human fever treatment pills, tablets, or capsules; internal medicine for people in measured doses; analgesic or antipyretic for humans", "hts": "3004.90", "cat": "Human Health/Finished"},
     {"desc": "Metabolic regulator tablets for human oral use, put up in measured doses for retail sale; human diabetes pills for glucose control", "hts": "3004.90", "cat": "Human Health/Finished"},
     {"desc": "Respiratory inhalation solution for human patients in dosage form with mechanical atomizer; human asthma treatment or bronchodilator", "hts": "3004.90", "cat": "Respiratory/Finished"},
-    {"desc": "Kinase inhibitor capsules for human oncology patients, 150mg retail blister packs; human cancer treatment pills", "hts": "3004.90", "cat": "Oncology/Finished"},
+    {"desc": "Kinase inhibitor capsules for human oncology patients, 150mg retail builder packs; human cancer treatment pills", "hts": "3004.90", "cat": "Oncology/Finished"},
     {"desc": "Anticoagulant capsules for human medicine, oral blood thinner in measured doses for people; cardiovascular pills", "hts": "3004.90", "cat": "Cardiovascular/Finished"},
     {"desc": "DPP-4 inhibitor tablets for human diabetic patients, 5mg film-coated for retail sale; glucose management medication", "hts": "3004.90", "cat": "Metabolic/Finished"},
     {"desc": "Antihypertensive tablets for human patients, 80mg dosage for retail sale; human blood pressure pills", "hts": "3004.90", "cat": "Cardiovascular/Finished"},
@@ -51,7 +51,7 @@ df = pd.DataFrame(HTS_DATA)
 # 2. AI CONFIGURATION
 # ---------------------------------------------------------
 # Set your API Key
-API_KEY = "AIzaSyBBUeRXQ5A59F4nPUlCvYYXUpR_DIJdM8M"
+API_KEY = "YOUR_API_KEY_HERE"
 genai.configure(api_key=API_KEY)
 
 @st.cache_resource
@@ -69,70 +69,81 @@ st.set_page_config(page_title="AI Trade POC", layout="wide")
 st.title("🛡️ AI-Native HTS Classification Engine")
 st.markdown("**Target Business Area:** Life Sciences & Animal Health")
 
-# Using a Form with a Submit Button to protect Quota
 with st.form("classification_form"):
     query = st.text_input("Enter Material Description:", placeholder="e.g., small pills for high blood sugar")
     submit_button = st.form_submit_button(label="Classify Material")
 
 if submit_button and query:
-    # STEP 1: Semantic Matching (Local)
+    # STEP 1: Semantic Matching (Local) - Retrieve Top 3 Matches
     query_embedding = embed_model.encode(query, convert_to_tensor=True)
     cos_scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
-    top_idx = int(torch.argmax(cos_scores))
-    match = df.iloc[top_idx]
     
-    # We multiply by 100 to get a percentage (e.g., 85.0)
-    confidence = float(torch.max(cos_scores)) * 100
+    # Get top 3 indices and their respective confidence scores
+    top_results = torch.topk(cos_scores, k=3)
+    top_indices = top_results.indices.tolist()
+    top_scores = (top_results.values * 100).tolist()
 
-    # --- NEW: SAFETY SWITCH (Thresholding) ---
+    # The most favored match (Rank 1)
+    match = df.iloc[top_indices[0]]
+    confidence = top_scores[0]
+
+    # --- MODIFIED SAFETY SWITCH ---
     THRESHOLD = 45 
 
+    # Show warning if below threshold, but DO NOT stop the process
     if confidence < THRESHOLD:
-        st.warning(f"⚠️ OUT OF SCOPE (Confidence: {confidence:.1f}%)")
-        st.write("This item does not appear to be a Life Sciences or Animal Health product. Please consult the General HTS Schedule.")
+        st.error(f"⚠️ **NON-CREDIBLE OUTPUT** (Confidence: {confidence:.1f}%)")
+        st.warning("The semantic match for this item is very low. Results below are for reference only and may not align with Life Sciences compliance standards.")
     else:
-        # STEP 2: AI Reasoning (Enhanced with Legal Priority Logic)
-        prompt = f"""
-        You are a Senior Trade Compliance Expert for a Global Life Sciences company.
-        
-        User Input: "{query}"
-        Semantic Match in Database: {match['desc']}
-        Initial HTS Recommendation: {match['hts']}
-        
-        Task:
-        1. Confirm if the HTS code {match['hts']} is the most specific heading. 
-        2. LEGAL PRIORITY RULE: Note that specific identities like 'Insulin', 'Vaccines', and 'Monoclonal Antibodies' often have their own dedicated HTS codes (e.g., 3004.31 for Insulin) which take precedence over general 'Bulk API' headings (Chapter 29) even if the product is in raw powder form.
-        3. Explain the classification logic in 2-3 concise sentences using GRI 1 (Terms of the Heading) or GRI 3a (Specificity).
-        4. If the user mentioned a specific species (Human vs Animal), ensure the reasoning reflects the correct category.
-        """
-        
-        with st.spinner("AI analyzing compliance logic..."):
-            try:
-                # Note: Using gemini-1.5-flash-002 as it's more stable for API calls
-                model = genai.GenerativeModel('gemini-1.5-flash-002')
-                response = model.generate_content(prompt)
-                ai_reasoning = response.text
-            except Exception as e:
-                # Robust Fallback for 429 Errors
-                ai_reasoning = (f"The material '{query}' was matched to HTS {match['hts']} via semantic analysis. "
-                                f"Logic: The item aligns with the definition of '{match['desc']}'. "
-                                f"Under GRI 1, it follows the specific heading for '{match['cat']}'.")
-                if "429" in str(e):
-                    st.warning("API Quota Reached. Switching to Local Reasoning Engine.")
+        st.success(f"✅ **High Confidence Match** ({confidence:.1f}%)")
 
-        # 4. RESULTS DISPLAY (Indented inside the 'else' to only show for valid matches)
-        st.subheader(f"Recommended HTS Code: :blue[{match['hts']}]")
-        
-        col1, col2 = st.columns([2, 1])
-        
-        with col1:
-            st.markdown("### 🤖 AI Compliance Reasoning")
-            st.info(ai_reasoning)
-            st.caption(f"Semantic Match Confidence: {confidence:.1f}%")
+    # STEP 2: AI Reasoning (For the most favored match)
+    prompt = f"""
+    You are a Senior Trade Compliance Expert for a Global Life Sciences company.
+    
+    User Input: "{query}"
+    Semantic Match in Database: {match['desc']}
+    Initial HTS Recommendation: {match['hts']}
+    
+    Task:
+    1. Confirm if the HTS code {match['hts']} is the most specific heading. 
+    2. Explain the classification logic in 2-3 concise sentences using GRI 1 or GRI 3a.
+    3. If the user input seems unrelated to the database match (low confidence), start your reasoning by stating this is a 'best-effort match'.
+    """
+    
+    with st.spinner("AI analyzing compliance logic..."):
+        try:
+            model = genai.GenerativeModel('gemini-1.5-flash-002')
+            response = model.generate_content(prompt)
+            ai_reasoning = response.text
+        except Exception as e:
+            ai_reasoning = (f"The material '{query}' was matched to HTS {match['hts']} via semantic analysis. "
+                            f"Logic: The item aligns closest with the definition of '{match['desc']}'.")
+
+    # --- RESULTS DISPLAY ---
+    st.subheader(f"Recommended HTS Code: :blue[{match['hts']}]")
+    
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.markdown("### 🤖 AI Compliance Reasoning (Best Match)")
+        st.info(ai_reasoning)
+        st.caption(f"Top Match Confidence: {confidence:.1f}%")
+
+    with col2:
+        st.markdown("### 🔍 Alternative Suggestions")
+        # Show alternative matches (Rank 2 and Rank 3)
+        for i in range(1, len(top_indices)):
+            alt_match = df.iloc[top_indices[i]]
+            alt_conf = top_scores[i]
+            
+            with st.expander(f"Option {i+1}: HTS {alt_match['hts']} ({alt_conf:.1f}%)"):
+                st.write(f"**Category:** {alt_match['cat']}")
+                st.write(f"**Reference Description:** {alt_match['desc']}")
 
 else:
     st.write("### Sector Knowledge Base (Sample Data)")
     st.dataframe(df[['hts', 'cat', 'desc']], use_container_width=True)
 
 st.markdown("---")
-st.caption("AI Proof of Concept | Designed for Global Trade Compliance Stakeholders")
+st.caption("@Techylla Inc 2026. All Rights Reserved.")
