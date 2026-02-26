@@ -67,9 +67,9 @@ st.markdown("""
 
 # --- 3. INPUT SECTION (Full Country Map) ---
 country_map = {
-    "IN": "India (IN)", "CN": "China (CN)", "MX": "Mexico (MX)", 
+    "DE": "Germany (DE)","IN": "India (IN)", "CN": "China (CN)", "MX": "Mexico (MX)", 
     "CA": "Canada (CA)", "SG": "Singapore (SG)", "KR": "South Korea (KR)", 
-    "BE": "Belgium (BE)", "DE": "Germany (DE)"
+    "BE": "Belgium (BE)", 
 }
 
 st.sidebar.title("🛡️ Techylla TariffIQ")
