@@ -39,9 +39,9 @@ st.set_page_config(page_title="Techylla AI Optimizer", layout="wide")
 l_col, c_col, r_col = st.columns([1, 2, 1])
 with c_col:
     if os.path.exists("techyllalogo.png"):
-        st.image("techyllalogo.png", use_container_width=True)
+#       st.image("techyllalogo.png", use_container_width=True)
     else:
-        st.markdown("<h1 style='text-align: center; color: #1E40AF;'>TECHYLLA AI</h1>", unsafe_allow_html=True)
+#        st.markdown("<h1 style='text-align: center; color: #1E40AF;'>TECHYLLA AI</h1>", unsafe_allow_html=True)
 
 st.markdown("<h2 style='text-align: center;'>AI Sourcing Command Center</h2>", unsafe_allow_html=True)
 st.write("---")
@@ -121,4 +121,5 @@ if st.button("🚀 Run Full AI Analysis"):
         # This shows the final math with the visible Risk Index
         st.table(edited_df[["Country", "AI_Risk_Index", "Landed_Cost", "Risk_Premium", "Effective_Unit_Cost"]].sort_values("Effective_Unit_Cost").style.format({
             "AI_Risk_Index": "{:.2f}", "Landed_Cost": "${:,.2f}", "Risk_Premium": "+${:,.2f}", "Effective_Unit_Cost": "${:,.2f}"
+
         }))
