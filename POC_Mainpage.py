@@ -48,7 +48,7 @@ col4, col5, col6 = st.columns(3, gap="large")
 
 with col4:
     st.markdown("<div class='module-card'><div><h3>📊 Analysis</h3><p style='color: #475569;'>HTS Auditing, MFN Rates, FTA Eligibility, and Penalty Detection.</p></div></div>", unsafe_allow_html=True)
-    st.link_button("Launch Analysis", "https://techyllatariffiq.streamlit.app/", use_container_width=True)
+    st.link_button("Launch Analysis", "https://techyllatariffhtsanalysis.streamlit.app/", use_container_width=True)
 
 with col5:
     st.markdown("<div class='module-card' style='border-top-color: #10B981;'><div><h3>🔍 HTS Intelligence</h3><p style='color: #475569;'>Advanced classification tools, tariff code mapping, and global trade compliance.</p></div></div>", unsafe_allow_html=True)
@@ -60,3 +60,4 @@ with col6:
 
 st.markdown("---")
 st.caption("© 2026 Techylla Trade Intelligence. All Rights Reserved.")
+
