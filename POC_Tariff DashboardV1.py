@@ -34,7 +34,7 @@ scenario_type = st.sidebar.selectbox(
     options=[" Global Change", " Country-specific Change", "Product-specific Change", "Targeted (HTS + Country)"]
 )
 
-hike_val = st.sidebar.slider("Tariff Hike (%)", 0, 100, 15) / 100
+hike_val = st.sidebar.slider("Tariff Hike (%)", 0, 100, 0) / 100
 
 st.sidebar.subheader("🛡️ Exemption Shield")
 shielded_countries = st.sidebar.multiselect("Shielded Countries", list(countries.keys()), default=["MX", "CA"], help="Countries exempt from Section 122 duties.")
@@ -124,4 +124,5 @@ sc_name_input = st.sidebar.text_input("Scenario Name", "Pharma Shield Active")
 if st.sidebar.button("💾 Save Current Scenario"):
     st.session_state.vault[sc_name_input] = df_plan.copy()
     st.sidebar.success(f"'{sc_name_input}' saved. Use the multiselect above to compare.")
+
 
