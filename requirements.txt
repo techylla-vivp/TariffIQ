@@ -6,4 +6,5 @@ scikit-learn
 google-generativeai
 sentence-transformers
 torch
+google-genai
 
